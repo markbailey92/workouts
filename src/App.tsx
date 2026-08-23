@@ -10,6 +10,7 @@ import {
 } from './data/workouts'
 import { CalendarView, StreakView } from './CalendarView'
 import { CloudSave } from './CloudSave'
+import { formatDayTitle } from './calendar'
 import {
   fetchFamily,
   isCloudConfigured,
@@ -17,7 +18,7 @@ import {
   saveFamily,
   watchFamily,
 } from './cloud'
-import { doneKey, loadState, saveState, type AppState } from './storage'
+import { clearWorkoutOnDay, doneKey, loadState, saveState, type AppState } from './storage'
 import './App.css'
 
 function displayName(names: AppState['names'], person: PersonId) {
@@ -161,7 +162,7 @@ function WorkoutView({
           All workouts
         </button>
         <button type="button" className="text-btn" onClick={onReset}>
-          Reset today
+          {finished > 0 ? 'Undo this session' : 'Reset today'}
         </button>
       </header>
 
@@ -229,6 +230,7 @@ function Home({
   cloudStatus,
   onNames,
   onFamily,
+  onRemoveWorkout,
   onOpen,
 }: {
   state: AppState
@@ -236,6 +238,7 @@ function Home({
   cloudStatus: string
   onNames: (person: PersonId, value: string) => void
   onFamily: (code: string | null, next?: AppState) => void
+  onRemoveWorkout: (workoutId: string, date: string, title: string) => void
   onOpen: (id: string) => void
 }) {
   const todayCounts = useMemo(() => {
@@ -290,7 +293,7 @@ function Home({
       />
 
       <StreakView done={state.done} />
-      <CalendarView done={state.done} />
+      <CalendarView done={state.done} onRemoveWorkout={onRemoveWorkout} />
 
       <section className="cards">
         {WORKOUTS.map((workout) => {
@@ -419,6 +422,15 @@ export default function App() {
     })
   }
 
+  function removeWorkout(workoutId: string, date: string, title: string) {
+    const when = formatDayTitle(date)
+    if (!window.confirm(`Remove ${title} from ${when}?`)) return
+    setState((current) => ({
+      ...current,
+      done: clearWorkoutOnDay(current.done, workoutId, date),
+    }))
+  }
+
   if (workout) {
     return (
       <WorkoutView
@@ -437,6 +449,7 @@ export default function App() {
       familyCode={familyCode}
       cloudStatus={cloudStatus}
       onNames={updateNames}
+      onRemoveWorkout={removeWorkout}
       onFamily={(code, next) => {
         setFamilyCode(code)
         if (next) {

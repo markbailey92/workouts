@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   dayMap,
   formatDayTitle,
@@ -7,7 +7,9 @@ import {
   streakStats,
   summarizeDay,
   weekdayLabels,
+  type DayStatus,
 } from './calendar'
+import { WORKOUTS } from './data/workouts'
 import { dateKey, type AppState } from './storage'
 
 function streakLabel(days: number) {
@@ -59,7 +61,57 @@ export function StreakView({ done }: { done: AppState['done'] }) {
   )
 }
 
-export function CalendarView({ done }: { done: AppState['done'] }) {
+function workoutMinutes(id: string) {
+  return WORKOUTS.find((workout) => workout.id === id)?.minutes
+}
+
+function DayWorkouts({
+  status,
+  onRemove,
+}: {
+  status: DayStatus
+  onRemove: (workoutId: string, title: string) => void
+}) {
+  if (status.workouts.length === 0) {
+    return <p className="cal-empty">No exercises checked off this day.</p>
+  }
+
+  return (
+    <ul className="day-workout-list">
+      {status.workouts.map((workout) => {
+        const minutes = workoutMinutes(workout.id)
+        return (
+          <li key={workout.id}>
+            <div>
+              <p className="day-workout-title">{workout.title}</p>
+              <p className="day-workout-meta">
+                {minutes ? `${minutes} min · ` : ''}
+                {workout.complete
+                  ? 'Completed together'
+                  : `${workout.finished} / ${workout.total} checks`}
+              </p>
+            </div>
+            <button
+              type="button"
+              className="text-btn"
+              onClick={() => onRemove(workout.id, workout.title)}
+            >
+              Remove
+            </button>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
+export function CalendarView({
+  done,
+  onRemoveWorkout,
+}: {
+  done: AppState['done']
+  onRemoveWorkout: (workoutId: string, date: string, title: string) => void
+}) {
   const today = dateKey()
   const now = new Date()
   const [cursor, setCursor] = useState({
@@ -67,14 +119,41 @@ export function CalendarView({ done }: { done: AppState['done'] }) {
     month: now.getMonth(),
   })
   const [selected, setSelected] = useState(today)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const byDate = useMemo(() => dayMap(done), [done])
   const cells = monthGrid(cursor.year, cursor.month)
   const selectedStatus = byDate[selected] ?? summarizeDay(done, selected)
+  const sessionLabel =
+    selectedStatus.completeCount > 0
+      ? `${selectedStatus.completeCount} finished`
+      : selectedStatus.hasActivity
+        ? 'Started'
+        : 'No session'
 
   function shiftMonth(delta: number) {
     const next = new Date(cursor.year, cursor.month + delta, 1)
     setCursor({ year: next.getFullYear(), month: next.getMonth() })
   }
+
+  function openDay(date: string) {
+    setSelected(date)
+    if (window.matchMedia('(max-width: 720px)').matches) {
+      setSheetOpen(true)
+    }
+  }
+
+  useEffect(() => {
+    if (!sheetOpen) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSheetOpen(false)
+    }
+    document.body.classList.add('sheet-open')
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.classList.remove('sheet-open')
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [sheetOpen])
 
   return (
     <section className="calendar" aria-label="Workout calendar">
@@ -92,7 +171,7 @@ export function CalendarView({ done }: { done: AppState['done'] }) {
             className="nav-btn"
             onClick={() => {
               setCursor({ year: now.getFullYear(), month: now.getMonth() })
-              setSelected(today)
+              openDay(today)
             }}
           >
             Today
@@ -126,7 +205,7 @@ export function CalendarView({ done }: { done: AppState['done'] }) {
               key={cell.date}
               type="button"
               className={`cal-cell is-${kind}${isToday ? ' is-today' : ''}${isSelected ? ' is-selected' : ''}`}
-              onClick={() => setSelected(cell.date!)}
+              onClick={() => openDay(cell.date!)}
               aria-pressed={isSelected}
               aria-label={`${formatDayTitle(cell.date)}${kind === 'complete' ? ', session completed' : kind === 'partial' ? ', started' : ', no checks'}`}
             >
@@ -151,23 +230,53 @@ export function CalendarView({ done }: { done: AppState['done'] }) {
 
       <div className="cal-detail">
         <h3>{formatDayTitle(selected)}</h3>
-        {selectedStatus.workouts.length === 0 ? (
-          <p className="cal-empty">No exercises checked off this day.</p>
-        ) : (
-          <ul>
-            {selectedStatus.workouts.map((workout) => (
-              <li key={workout.id}>
-                <span>{workout.title}</span>
-                <span>
-                  {workout.complete
-                    ? 'Completed'
-                    : `${workout.finished} / ${workout.total} checks`}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
+        <p className="day-sub">{sessionLabel}</p>
+        <DayWorkouts
+          status={selectedStatus}
+          onRemove={(workoutId, title) =>
+            onRemoveWorkout(workoutId, selected, title)
+          }
+        />
       </div>
+
+      {sheetOpen ? (
+        <div className="sheet-root">
+          <button
+            type="button"
+            className="sheet-backdrop"
+            aria-label="Close day details"
+            onClick={() => setSheetOpen(false)}
+          />
+          <div
+            className="sheet"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="sheet-day-title"
+          >
+            <div className="sheet-handle" aria-hidden="true" />
+            <div className="sheet-head">
+              <div>
+                <p className="eyebrow">{selected === today ? 'Today' : 'Session'}</p>
+                <h3 id="sheet-day-title">{formatDayTitle(selected)}</h3>
+                <p className="day-sub">{sessionLabel}</p>
+              </div>
+              <button
+                type="button"
+                className="nav-btn"
+                onClick={() => setSheetOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+            <DayWorkouts
+              status={selectedStatus}
+              onRemove={(workoutId, title) =>
+                onRemoveWorkout(workoutId, selected, title)
+              }
+            />
+          </div>
+        </div>
+      ) : null}
     </section>
   )
 }

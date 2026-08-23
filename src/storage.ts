@@ -28,6 +28,19 @@ export function doneKey(
   return `${day}|${workoutId}|${exerciseId}|${person}`
 }
 
+export function clearWorkoutOnDay(
+  done: AppState['done'],
+  workoutId: string,
+  day: string,
+) {
+  const prefix = `${day}|${workoutId}|`
+  const next = { ...done }
+  for (const key of Object.keys(next)) {
+    if (key.startsWith(prefix)) delete next[key]
+  }
+  return next
+}
+
 export function parseDoneKey(key: string) {
   const date = key.slice(0, 10)
   const parts = key.slice(11).split('|')

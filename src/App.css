@@ -411,10 +411,71 @@ h3 {
   border-bottom: 0;
 }
 
-.cal-detail li span:last-child {
+.cal-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cal-row-actions > span {
   font-weight: 700;
   color: #2f6f4e;
   white-space: nowrap;
+}
+
+.cal-row-actions .text-btn {
+  font-weight: 600;
+  color: #9b1c1c;
+}
+
+.day-sub {
+  margin: 0 0 12px;
+  color: #5c6570;
+  font-size: 0.9rem;
+}
+
+.day-workout-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.day-workout-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee4d4;
+}
+
+.day-workout-list li:last-child {
+  border-bottom: 0;
+}
+
+.day-workout-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.day-workout-meta {
+  margin: 4px 0 0;
+  color: #5c6570;
+  font-size: 0.9rem;
+}
+
+.day-workout-list .text-btn {
+  color: #9b1c1c;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.sheet-root {
+  display: none;
+}
+
+body.sheet-open {
+  overflow: hidden;
 }
 
 .workout-card {
@@ -679,10 +740,64 @@ h3 {
   text-align: center;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .calendar-head,
   .calendar-nav {
     flex-direction: column;
+  }
+
+  .cal-detail {
+    display: none;
+  }
+
+  .sheet-root {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+  }
+
+  .sheet-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    background: rgb(28 36 48 / 0.45);
+    cursor: pointer;
+  }
+
+  .sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: min(78vh, 560px);
+    overflow: auto;
+    padding: 10px 20px 28px;
+    background: #fffdf8;
+    border-radius: 20px 20px 0 0;
+    animation: sheet-up 180ms ease-out;
+  }
+
+  .sheet-handle {
+    width: 40px;
+    height: 4px;
+    margin: 4px auto 14px;
+    border-radius: 99px;
+    background: #d2c6b2;
+  }
+
+  .sheet-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .sheet-head h3 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
   }
 
   .workout-card,
@@ -693,5 +808,14 @@ h3 {
   .card-thumb {
     min-height: 160px;
     max-height: 180px;
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+  }
+  to {
+    transform: translateY(0);
   }
 }
