@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
-import type { AppState } from './storage'
+import { pruneDone, type AppState } from './storage'
 
 const FAMILY_KEY = 'together-workouts-family-code'
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -48,7 +48,7 @@ function asState(row: FamilyRow): AppState {
       a: row.names?.a ?? '',
       b: row.names?.b ?? '',
     },
-    done: row.done ?? {},
+    done: pruneDone(row.done ?? {}),
   }
 }
 

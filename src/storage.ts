@@ -1,4 +1,4 @@
-import type { PersonId } from './data/workouts'
+import { isKnownExercise, type PersonId } from './data/workouts'
 
 const KEY = 'together-workouts-v1'
 
@@ -50,6 +50,21 @@ export function parseDoneKey(key: string) {
   return { date, workoutId, exerciseId, person: person as PersonId }
 }
 
+// Exercise lists were corrected against their videos, so older saves can hold
+// checks for moves that no longer exist. Those would otherwise sit in the store
+// forever and make a day look active on the calendar with nothing to show.
+export function pruneDone(done: AppState['done']) {
+  const next: AppState['done'] = {}
+  for (const [key, value] of Object.entries(done)) {
+    if (!value) continue
+    const parsed = parseDoneKey(key)
+    if (!parsed) continue
+    if (!isKnownExercise(parsed.workoutId, parsed.exerciseId)) continue
+    next[key] = true
+  }
+  return next
+}
+
 export function loadState(): AppState {
   try {
     const raw = localStorage.getItem(KEY)
@@ -60,7 +75,7 @@ export function loadState(): AppState {
         a: parsed.names?.a ?? '',
         b: parsed.names?.b ?? '',
       },
-      done: parsed.done ?? {},
+      done: pruneDone(parsed.done ?? {}),
     }
   } catch {
     return structuredClone(DEFAULT_STATE)

@@ -80,6 +80,7 @@ function ExerciseRow({
   const aDone = Boolean(done[doneKey(workout.id, exercise.id, 'a')])
   const bDone = Boolean(done[doneKey(workout.id, exercise.id, 'b')])
   const both = aDone && bDone
+  const demoId = exercise.videoId
 
   return (
     <article className={`exercise${both ? ' exercise-done' : ''}`}>
@@ -88,21 +89,23 @@ function ExerciseRow({
           <h3>{exercise.name}</h3>
           <p className="dose">{exercise.dose}</p>
         </div>
-        <button
-          type="button"
-          className="text-btn"
-          onClick={() => setShowVideo((value) => !value)}
-          aria-expanded={showVideo}
-        >
-          {showVideo ? 'Hide preview' : 'Show preview'}
-        </button>
+        {demoId ? (
+          <button
+            type="button"
+            className="text-btn"
+            onClick={() => setShowVideo((value) => !value)}
+            aria-expanded={showVideo}
+          >
+            {showVideo ? 'Hide form clip' : 'How to do it'}
+          </button>
+        ) : null}
       </div>
       <p className="cue">{exercise.cue}</p>
       <p className="easier">
         <span>Easier option:</span> {exercise.easier}
       </p>
-      {showVideo ? (
-        <VideoPreview videoId={exercise.videoId} title={`${exercise.name} preview`} />
+      {demoId && showVideo ? (
+        <VideoPreview videoId={demoId} title={`${exercise.name} form clip`} />
       ) : null}
       <div className="checks">
         <button
@@ -209,6 +212,9 @@ function WorkoutView({
 
       <section className="list">
         <h2>Do these together</h2>
+        <p className="list-note">
+          These are the moves in the video above, in the same order.
+        </p>
         {workout.exercises.map((exercise) => (
           <ExerciseRow
             key={exercise.id}
@@ -259,8 +265,8 @@ function Home({
         <p className="eyebrow">Family session</p>
         <h1>Workout together</h1>
         <p className="lede">
-          You both do the same exercises. Check off as you finish. Preview a
-          move before you start.
+          You both do the same exercises. Every list below matches its
+          follow-along video, move for move, in order.
         </p>
       </header>
 

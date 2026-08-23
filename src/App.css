@@ -650,6 +650,12 @@ body.sheet-open {
   margin-bottom: 12px;
 }
 
+.list-note {
+  margin: -6px 0 14px;
+  font-size: 0.9rem;
+  color: #5d6874;
+}
+
 .exercise {
   background: #fffdf8;
   border: 1px solid #d9cdba;
