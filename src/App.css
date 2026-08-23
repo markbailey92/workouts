@@ -738,9 +738,12 @@ body.sheet-open {
   border-radius: 999px;
 }
 
+/* The API stamps width/height attributes on the iframe, and aspect-ratio is
+   ignored unless one of the two dimensions is left auto. */
 .video-frame iframe {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   border: 0;
 }
@@ -783,43 +786,52 @@ body.sheet-open {
   border-radius: 12px;
 }
 
-/* Fallback for browsers that will not put a div into native fullscreen,
-   notably Safari on iPhone. */
+/* Covers both native fullscreen and the manual fallback for browsers that will
+   not put a div into fullscreen, notably Safari on iPhone. */
 .video-shell.is-expanded {
   position: fixed;
   inset: 0;
   z-index: 50;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 10px;
   background: #1c2430;
 }
 
+/* Landscape on a phone has little height to spare, so give the buttons less of
+   it and the video more. */
+@media (max-height: 520px) {
+  .video-shell.is-expanded {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .video-shell.is-expanded .video-btn {
+    min-height: 36px;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+  }
+}
+
 .video-shell.is-expanded .video-frame {
+  flex: 1;
+  min-height: 0;
   border-radius: 0;
+  background: transparent;
+}
+
+/* Fill the screen and let the player letterbox inside it, the way YouTube's own
+   fullscreen behaves. Holding a 16:9 box here would pillarbox instead. */
+.video-shell.is-expanded .video-frame iframe {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
 }
 
 .video-shell.is-expanded .video-controls {
   justify-content: center;
-}
-
-.video-shell:fullscreen {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-  padding: 16px;
-  background: #1c2430;
-}
-
-.video-shell:fullscreen .video-frame {
-  border-radius: 0;
-}
-
-.video-shell:fullscreen .video-controls {
-  justify-content: center;
+  margin-top: 0;
 }
 
 .list h2 {
