@@ -2,15 +2,23 @@ export type PersonId = 'a' | 'b'
 
 // Exercise names, order and doses below are transcribed from each linked video's
 // own description or captions. If you change a followAlongId, re-check the video
-// before editing its exercise list. `videoId` is only set when a separate clip
-// demonstrates that single move — otherwise the session video is the only source.
+// before editing its exercise list.
+//
+// `howTo.start` is the second at which that move is actually taught, taken from
+// the video's chapter markers or captions. Do not adjust one without re-checking
+// the video — a wrong offset lands on the wrong exercise.
+export type HowTo = {
+  videoId: string
+  start?: number
+}
+
 export type Exercise = {
   id: string
   name: string
   dose: string
   cue: string
   easier: string
-  videoId?: string
+  howTo: HowTo
 }
 
 export type Workout = {
@@ -38,6 +46,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Jump feet out as arms go up. Land softly.',
         easier: 'Step one foot out at a time instead of jumping.',
+        howTo: { videoId: 'rN0h6EZd6TM', start: 13 },
       },
       {
         id: 'squats',
@@ -45,7 +54,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Sit back like a chair. Chest up. Heels down. Stand tall.',
         easier: 'Hold a chair for balance, or sit and stand from a seat.',
-        videoId: 'aclHkVaku9U',
+        howTo: { videoId: 'rN0h6EZd6TM', start: 63 },
       },
       {
         id: 'slow-burpees',
@@ -53,6 +62,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Hands down, walk feet back, walk feet in, stand up.',
         easier: 'Skip the walk-back. Touch the floor and stand.',
+        howTo: { videoId: 'rN0h6EZd6TM', start: 132 },
       },
       {
         id: 'toe-sky',
@@ -60,6 +70,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Bend and reach for your toes, then stretch up as tall as you can.',
         easier: 'Touch your knees instead of your toes.',
+        howTo: { videoId: 'rN0h6EZd6TM', start: 184 },
       },
       {
         id: 'ski-jumps',
@@ -67,6 +78,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Feet together, small quick jumps side to side.',
         easier: 'Step side to side instead of jumping.',
+        howTo: { videoId: 'rN0h6EZd6TM', start: 244 },
       },
     ],
   },
@@ -84,6 +96,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Lift the knees. Swing the arms. Stay tall.',
         easier: 'Smaller steps, slower pace.',
+        howTo: { videoId: 'd3LPrhI0v-w', start: 22 },
       },
       {
         id: 'star-jumps-2',
@@ -91,6 +104,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Arms up, feet out. Land quietly.',
         easier: 'Step one foot out at a time.',
+        howTo: { videoId: 'd3LPrhI0v-w', start: 76 },
       },
       {
         id: 'sprint-shuffle',
@@ -98,6 +112,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Stay low, fast feet, shuffle side to side.',
         easier: 'March quickly on the spot instead.',
+        howTo: { videoId: 'd3LPrhI0v-w', start: 141 },
       },
       {
         id: 'chair-squats-2',
@@ -105,7 +120,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Sit back, stand up. Heels stay down.',
         easier: 'Hold a chair, or sit-to-stand from a seat.',
-        videoId: 'aclHkVaku9U',
+        howTo: { videoId: 'd3LPrhI0v-w', start: 206 },
       },
       {
         id: 'climb-the-rope',
@@ -113,6 +128,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Reach one hand over the other, pulling down an imaginary rope.',
         easier: 'Reach without going up on your toes.',
+        howTo: { videoId: 'd3LPrhI0v-w', start: 266 },
       },
     ],
   },
@@ -130,6 +146,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Small jumps, twisting your hips one way then the other.',
         easier: 'Twist side to side with your feet staying on the floor.',
+        howTo: { videoId: 'AOP_97n__Yk', start: 28 },
       },
       {
         id: 'star-jumps-3',
@@ -137,6 +154,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Arms up, feet out. Land softly.',
         easier: 'Step one foot out at a time.',
+        howTo: { videoId: 'AOP_97n__Yk', start: 91 },
       },
       {
         id: 'front-kicks-2',
@@ -144,6 +162,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Kick one foot forward, then the other. Soft standing knee.',
         easier: 'Lift the knee without the kick.',
+        howTo: { videoId: 'AOP_97n__Yk', start: 152 },
       },
       {
         id: 'toe-sky-2',
@@ -151,6 +170,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Reach down toward your toes, then stretch all the way up.',
         easier: 'Touch your knees instead of your toes.',
+        howTo: { videoId: 'AOP_97n__Yk', start: 220 },
       },
       {
         id: 'jab-cross',
@@ -158,6 +178,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Two straight punches forward, then two punches up.',
         easier: 'Slower punches, smaller range.',
+        howTo: { videoId: 'AOP_97n__Yk', start: 272 },
       },
     ],
   },
@@ -175,6 +196,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Squat down, stand up and bring a knee up to meet the elbow.',
         easier: 'Skip the squat and just tap knee to elbow.',
+        howTo: { videoId: 'fAUckPMJKSY', start: 21 },
       },
       {
         id: 'mountain-climbers-2',
@@ -182,6 +204,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Hands under shoulders. Drive one knee up toward the elbow, then swap.',
         easier: 'Walk the knees in slowly, or do it standing against a wall.',
+        howTo: { videoId: 'fAUckPMJKSY', start: 74 },
       },
       {
         id: 'wide-knee-elbow',
@@ -189,6 +212,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Arms out wide. Bring the knee out to the side to meet the elbow.',
         easier: 'Smaller lift. Drop the arms if the shoulders tire.',
+        howTo: { videoId: 'fAUckPMJKSY', start: 133 },
       },
       {
         id: 'mummy-kicks',
@@ -196,6 +220,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Cross the arms like a mummy. Kick one foot forward, then the other.',
         easier: 'March with arms crossed. No kick.',
+        howTo: { videoId: 'fAUckPMJKSY', start: 205 },
       },
       {
         id: 'lunge-punch',
@@ -203,7 +228,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Step back into a lunge and punch forward. Switch legs.',
         easier: 'Small step, or punch in place with no lunge.',
-        videoId: 'QOVaHwm-Q6U',
+        howTo: { videoId: 'fAUckPMJKSY', start: 255 },
       },
     ],
   },
@@ -221,6 +246,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds (20 each direction)',
         cue: 'Big circles — hands up and back. Switch direction halfway.',
         easier: 'Smaller circles, or one arm at a time.',
+        howTo: { videoId: 'vzA8wMx-gew', start: 29 },
       },
       {
         id: 'knee-smashers',
@@ -228,6 +254,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Hands high, then crush an imaginary watermelon down onto your knee.',
         easier: 'Step instead of hopping, and reach less high.',
+        howTo: { videoId: 'vzA8wMx-gew', start: 93 },
       },
       {
         id: 'knee-elbow',
@@ -235,6 +262,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Arms straight out to the sides. Bring the knee up to meet the elbow.',
         easier: 'Tap the hand to the knee instead of holding the arms out.',
+        howTo: { videoId: 'vzA8wMx-gew', start: 154 },
       },
       {
         id: 'clap-unders',
@@ -242,6 +270,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Lift a knee and clap your hands underneath it. Switch sides.',
         easier: 'Clap in front of you and march.',
+        howTo: { videoId: 'vzA8wMx-gew', start: 209 },
       },
       {
         id: 'punch-jumps',
@@ -249,6 +278,7 @@ export const WORKOUTS: Workout[] = [
         dose: '40 seconds',
         cue: 'Stand at a diagonal. Six straight punches, then two big jumps.',
         easier: 'Six punches, then two marches. No jump.',
+        howTo: { videoId: 'vzA8wMx-gew', start: 269 },
       },
     ],
   },
@@ -266,6 +296,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Jog in place. Keep it bouncy and light.',
         easier: 'March in place.',
+        howTo: { videoId: '0_2gU2E0HOQ', start: 20 },
       },
       {
         id: 'turkey-walk',
@@ -273,6 +304,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Walk forward and back with a wide, waddling low step.',
         easier: 'Stay higher and take smaller steps.',
+        howTo: { videoId: '0_2gU2E0HOQ', start: 55 },
       },
       {
         id: 'start-jump',
@@ -280,6 +312,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Arms up, feet out, then back in.',
         easier: 'Step one foot out at a time.',
+        howTo: { videoId: 'lkYtECQYrWo' },
       },
       {
         id: 'plank-taps',
@@ -287,7 +320,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'High plank. Tap the opposite shoulder. Keep the hips quiet.',
         easier: 'Plank on your knees, or hold a still plank.',
-        videoId: 'pSHjTRCQxIw',
+        howTo: { videoId: '0_2gU2E0HOQ', start: 166 },
       },
       {
         id: 'superman',
@@ -295,7 +328,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Lie on your belly. Lift arms and legs like flying.',
         easier: 'Lift only arms, or only legs.',
-        videoId: 'cc6UVRS7PW4',
+        howTo: { videoId: 'cc6UVRS7PW4' },
       },
       {
         id: 'bird-dog',
@@ -303,6 +336,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Hands and knees. Reach the opposite arm and leg out, then pause.',
         easier: 'Lift only an arm, or only a leg.',
+        howTo: { videoId: 'rrFv1h_uUZI' },
       },
       {
         id: 'frog-jump',
@@ -310,6 +344,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'Squat low, then hop forward and land back in a squat.',
         easier: 'Squat and stand — no jump.',
+        howTo: { videoId: '1HXEiJBMdPE' },
       },
       {
         id: 'x-crunch',
@@ -317,6 +352,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Follow the video timer',
         cue: 'On your back, reach the opposite hand and foot together, then open wide.',
         easier: 'Small marches on your back, hands on your belly.',
+        howTo: { videoId: '0_2gU2E0HOQ', start: 385 },
       },
     ],
   },
@@ -334,6 +370,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Fast light feet. Pump the arms.',
         easier: 'March on the spot.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 19 },
       },
       {
         id: 'running-punches',
@@ -341,6 +378,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Run on the spot and punch forward at the same time.',
         easier: 'March and punch slowly.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 70 },
       },
       {
         id: 'front-kicks-3',
@@ -348,6 +386,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Kick one foot forward, then the other. Soft standing knee.',
         easier: 'Knee lifts only.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 128 },
       },
       {
         id: 'crab-kicks',
@@ -355,6 +394,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Sit with hands behind you, hips lifted. Kick one leg up, then the other.',
         easier: 'Hold the crab position without kicking.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 193 },
       },
       {
         id: 'squats-2',
@@ -362,15 +402,15 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Sit back low and stand tall. Weight in the heels.',
         easier: 'Hold a chair, or sit-to-stand from a seat.',
-        videoId: 'aclHkVaku9U',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 256 },
       },
       {
         id: 'press-ups',
-        name: 'Press ups',
+        name: 'Box press ups',
         dose: '35 seconds',
-        cue: 'Hands under shoulders, body in a line. Bend the elbows and push.',
-        easier: 'Knees down, or press against a wall.',
-        videoId: 'IODxDxX7oi4',
+        cue: 'Knees down rather than a full press up. Bend the elbows, drop down, push back up.',
+        easier: 'Shallower reps, or press against a wall.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 311 },
       },
       {
         id: 'lateral-lunges',
@@ -378,6 +418,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Step wide to one side, sit into that hip, push back to the middle.',
         easier: 'Smaller step, or hold a chair.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 368 },
       },
       {
         id: 'walkout-toe',
@@ -385,6 +426,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Hands to the floor, walk out to a plank, walk back in, stand and touch a toe.',
         easier: 'Walk out only halfway, or do it against a wall.',
+        howTo: { videoId: 'YIB2SJnBHBQ', start: 432 },
       },
     ],
   },
@@ -402,6 +444,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Knees up fast. Pump the arms and legs together.',
         easier: 'March quickly instead.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 37 },
       },
       {
         id: 'squats-3',
@@ -409,7 +452,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Sit into an imaginary chair, weight in the heels, then stand.',
         easier: 'Hold a chair, or sit-to-stand from a seat.',
-        videoId: 'aclHkVaku9U',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 92 },
       },
       {
         id: 'duck-walks',
@@ -417,6 +460,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Stay low in a squatty lunge and walk forwards, then backwards.',
         easier: 'Stay higher up, or step in place. Rest whenever you need.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 158 },
       },
       {
         id: 'kangaroo-hops',
@@ -424,6 +468,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Hands tucked up like a pouch. Hop left to right.',
         easier: 'Step side to side instead of hopping.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 209 },
       },
       {
         id: 'press-ups-2',
@@ -431,7 +476,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Knees on the ground, hands down. Bend the elbows and push up.',
         easier: 'Shallower reps — bend the arms only a little.',
-        videoId: 'IODxDxX7oi4',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 274 },
       },
       {
         id: 'pikachus',
@@ -439,6 +484,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Tuck down into a little ball, then explode up into a big jump.',
         easier: 'Squat down and stand up tall without the jump.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 340 },
       },
       {
         id: 'spidey-lunges',
@@ -446,6 +492,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'Drop into a lunge left, then right, spinning a web each time.',
         easier: 'Shorter step, and hold something for balance.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 391 },
       },
       {
         id: 'pikachus-2',
@@ -453,6 +500,7 @@ export const WORKOUTS: Workout[] = [
         dose: '35 seconds',
         cue: 'The wheel landed on it twice. Tuck down and explode up.',
         easier: 'Squat down and stand up tall without the jump.',
+        howTo: { videoId: 'Qjcw2Vov_5k', start: 455 },
       },
     ],
   },
@@ -470,6 +518,7 @@ export const WORKOUTS: Workout[] = [
         dose: '30 seconds',
         cue: 'Deep squat, hands down, hop or step forward staying low.',
         easier: 'Squat and stand in place instead of moving forward.',
+        howTo: { videoId: 'uZRUeUfbHaU' },
       },
       {
         id: 'duck-walk',
@@ -477,6 +526,7 @@ export const WORKOUTS: Workout[] = [
         dose: '30 seconds',
         cue: 'Stay in a low squat and waddle forward.',
         easier: 'Stay higher and take smaller steps.',
+        howTo: { videoId: 'uZRUeUfbHaU' },
       },
       {
         id: 'gorilla-walk',
@@ -484,6 +534,7 @@ export const WORKOUTS: Workout[] = [
         dose: '30 seconds',
         cue: 'Wide feet, knuckles or hands down, swing side to side as you move.',
         easier: 'Hands on knees instead of the floor.',
+        howTo: { videoId: 'uZRUeUfbHaU' },
       },
       {
         id: 'bunny-walk',
@@ -491,6 +542,7 @@ export const WORKOUTS: Workout[] = [
         dose: '30 seconds',
         cue: 'Hands down in front, hop both feet up to meet them.',
         easier: 'Step the feet forward instead of hopping.',
+        howTo: { videoId: 'uZRUeUfbHaU' },
       },
       {
         id: 'crab-walk',
@@ -498,6 +550,7 @@ export const WORKOUTS: Workout[] = [
         dose: '30 seconds',
         cue: 'Sit, hands behind you, lift the hips, walk on hands and feet.',
         easier: 'Hold the crab position and stay still.',
+        howTo: { videoId: 'uZRUeUfbHaU' },
       },
     ],
   },
@@ -515,6 +568,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Find the beat',
         cue: 'If you can walk, you can march. Easy steps to the music.',
         easier: 'Slower, smaller steps.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 50 },
       },
       {
         id: 'high-knees',
@@ -522,6 +576,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'As high as you can',
         cue: 'Drive the knees up high. Do not forget to breathe.',
         easier: 'March with a smaller knee lift.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 66 },
       },
       {
         id: 'jumping-jacks',
@@ -529,6 +584,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'To the music',
         cue: 'Arms up, feet out, then back in together.',
         easier: 'Step one foot out at a time.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 126 },
       },
       {
         id: 'neck-looks',
@@ -536,6 +592,7 @@ export const WORKOUTS: Workout[] = [
         dose: '4 each way',
         cue: 'Look up to the roof, down to your toes, then left and right.',
         easier: 'Keep the range small.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 191 },
       },
       {
         id: 'shoulder-rolls',
@@ -543,6 +600,7 @@ export const WORKOUTS: Workout[] = [
         dose: '5 forward, 5 back',
         cue: 'Roll the shoulders forward counting up, then backward counting down.',
         easier: 'Tiny rolls, or shrug and drop.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 229 },
       },
       {
         id: 'airplane-arms',
@@ -550,6 +608,7 @@ export const WORKOUTS: Workout[] = [
         dose: '8 counts',
         cue: 'Arms out like an airplane. Tip side to side.',
         easier: 'Lower arms if the shoulders tire.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 258 },
       },
       {
         id: 'arm-circles-2',
@@ -557,6 +616,7 @@ export const WORKOUTS: Workout[] = [
         dose: '8 each way, small then big',
         cue: 'Point your fingers out and draw small circles, then big ones one arm at a time.',
         easier: 'Fewer circles, or rest an arm on your hip.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 275 },
       },
       {
         id: 'punches',
@@ -564,6 +624,7 @@ export const WORKOUTS: Workout[] = [
         dose: '8 front, 8 across, 8 up, 8 down',
         cue: 'Punch forward, then across your body, then up, then down.',
         easier: 'Slower punches with a smaller reach.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 367 },
       },
       {
         id: 'kicks',
@@ -571,6 +632,7 @@ export const WORKOUTS: Workout[] = [
         dose: '4 each side',
         cue: 'Lift the knee, then straighten the leg out into the air.',
         easier: 'Knee lifts only. Hold a wall if you wobble.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 423 },
       },
       {
         id: 'one-leg',
@@ -578,6 +640,7 @@ export const WORKOUTS: Workout[] = [
         dose: '10 counts each side',
         cue: 'Stand on one leg, hold your foot, put the other arm out for balance.',
         easier: 'Keep a toe on the floor, or hold a chair.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 462 },
       },
       {
         id: 'cat-cow',
@@ -585,6 +648,7 @@ export const WORKOUTS: Workout[] = [
         dose: '4 of each',
         cue: 'Hands and knees. Dip the belly for cow, round the back for cat.',
         easier: 'Smaller movement. Breathe with it.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 535 },
       },
       {
         id: 'plank',
@@ -592,7 +656,7 @@ export const WORKOUTS: Workout[] = [
         dose: '10 counts',
         cue: 'Hands under shoulders, legs straight behind. Hips not sagging or high.',
         easier: 'Knees down, or plank against a wall.',
-        videoId: 'pSHjTRCQxIw',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 595 },
       },
       {
         id: 'mountain-climbers',
@@ -600,6 +664,7 @@ export const WORKOUTS: Workout[] = [
         dose: '3 each side',
         cue: 'From the plank, bend one leg up toward the elbow, then the other.',
         easier: 'Walk the knees in slowly.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 663 },
       },
       {
         id: 'seated-twist',
@@ -607,6 +672,7 @@ export const WORKOUTS: Workout[] = [
         dose: '4 each side',
         cue: 'Sit with knees bent holding a ball or pillow. Twist and touch the floor each side.',
         easier: 'Smaller twist, no need to reach the floor.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 709 },
       },
       {
         id: 'crab-stand',
@@ -614,6 +680,7 @@ export const WORKOUTS: Workout[] = [
         dose: '10 counts',
         cue: 'Hands and feet down, lift your bottom and hold it up straight.',
         easier: 'Rest your bottom down between counts.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 783 },
       },
       {
         id: 'seated-folds',
@@ -621,6 +688,7 @@ export const WORKOUTS: Workout[] = [
         dose: '8 counts, then 10 counts',
         cue: 'Criss-cross your legs and fold to touch your elbows down. Then legs straight and reach for your toes.',
         easier: 'Bend the knees a little to make the toe reach easier.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 843 },
       },
       {
         id: 'cool-down',
@@ -628,6 +696,7 @@ export const WORKOUTS: Workout[] = [
         dose: '8 counts each stretch',
         cue: 'Arm across the body, arm overhead down your back, wrist and ankle circles, shake it out, three big breaths.',
         easier: 'Hold each stretch gently and skip any that pinch.',
+        howTo: { videoId: 'VMj2ZgQqsNA', start: 922 },
       },
     ],
   },
@@ -645,6 +714,7 @@ export const WORKOUTS: Workout[] = [
         dose: '4 or 5 in a row',
         cue: 'Hands and knees, fingers wide. Arch up for cat, dip the belly and wiggle the tail for cow.',
         easier: 'Smaller movement. Breathe out as you round.',
+        howTo: { videoId: 'QeVh3NVfa0k', start: 17 },
       },
       {
         id: 'dog-pose',
@@ -652,6 +722,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Wag the tail each side',
         cue: 'Hands and feet down, press the hips up to the sky. Reach one leg up and wag it.',
         easier: 'Stay on hands and knees, or bend the knees a lot.',
+        howTo: { videoId: 'QeVh3NVfa0k', start: 121 },
       },
       {
         id: 'pigeon-pose',
@@ -659,6 +730,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Both sides',
         cue: 'Front leg on a diagonal, back leg long behind. Fingers like tents, roll the shoulders back and puff up the chest.',
         easier: 'Sit cross-legged and lean forward gently instead.',
+        howTo: { videoId: 'QeVh3NVfa0k', start: 191 },
       },
       {
         id: 'tree-pose',
@@ -666,6 +738,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Both sides',
         cue: 'One heel on top of the other foot, knee out to the side. Hands at your heart, then grow your branches up.',
         easier: 'Keep the toe on the floor, or hold a wall.',
+        howTo: { videoId: 'QeVh3NVfa0k', start: 289 },
       },
       {
         id: 'whale-pose',
@@ -673,7 +746,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'A few bubbles and pops',
         cue: 'On your back, knees bent, hands flat. Lift the hips saying "bubble, bubble" then "pop" at the top.',
         easier: 'Smaller lift, or hold at the top and breathe.',
-        videoId: 'OUgsJ8-Vi0E',
+        howTo: { videoId: 'QeVh3NVfa0k', start: 372 },
       },
     ],
   },
@@ -691,6 +764,7 @@ export const WORKOUTS: Workout[] = [
         dose: '2 each way, then a roll',
         cue: 'Look over each shoulder, tick your head side to side, rest a hand on your ear, then roll your chin around.',
         easier: 'Keep the range small and do not press with the hand.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 29 },
       },
       {
         id: 'shoulder-rolls-2',
@@ -698,6 +772,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Round, then up-up down-down',
         cue: 'Roll the shoulders round, then lift one, lift two, drop one, drop two. Finish with a wiggle.',
         easier: 'Tiny rolls, or just shrug and drop.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 104 },
       },
       {
         id: 'backpack-reach',
@@ -705,6 +780,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Both sides',
         cue: 'Reach one arm up and drop the hand down your back. Use the other arm to press the elbow down.',
         easier: 'Press very lightly, or skip the second arm.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 130 },
       },
       {
         id: 'beach-ball',
@@ -712,6 +788,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Long slow breaths',
         cue: 'Cup your hands around your mouth and blow the ball up bigger and bigger.',
         easier: 'Fewer, gentler breaths.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 166 },
       },
       {
         id: 'chair-twist',
@@ -719,6 +796,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Both sides',
         cue: 'Sit up tall, hold the back or arm of the chair, twist round and have a look. Feet stay flat.',
         easier: 'Twist only as far as feels easy.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 207 },
       },
       {
         id: 'cosmonoculars',
@@ -726,6 +804,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'Have a look around',
         cue: 'Join your thumbs and fingers into circles and look through them at the horizon.',
         easier: 'One hand at a time.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 253 },
       },
       {
         id: 'sky-rest',
@@ -733,6 +812,7 @@ export const WORKOUTS: Workout[] = [
         dose: 'A quiet minute',
         cue: 'Criss-cross your fingers behind your head, lean back in the chair, close your eyes and float.',
         easier: 'Hands in your lap and just breathe.',
+        howTo: { videoId: 'dnwHDN6Dw7Q', start: 303 },
       },
     ],
   },
@@ -752,11 +832,12 @@ export function youtubeThumb(videoId: string) {
   return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
 }
 
-export function youtubeEmbed(videoId: string) {
+export function youtubeEmbed(videoId: string, start?: number) {
   const params = new URLSearchParams({
     rel: '0',
     modestbranding: '1',
     playsinline: '1',
   })
+  if (start && start > 0) params.set('start', String(start))
   return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`
 }

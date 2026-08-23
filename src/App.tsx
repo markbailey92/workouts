@@ -29,10 +29,12 @@ function displayName(names: AppState['names'], person: PersonId) {
 function VideoPreview({
   videoId,
   title,
+  start,
   large,
 }: {
   videoId: string
   title: string
+  start?: number
   large?: boolean
 }) {
   const [open, setOpen] = useState(false)
@@ -54,7 +56,7 @@ function VideoPreview({
   return (
     <div className={large ? 'video-frame video-frame-large' : 'video-frame'}>
       <iframe
-        src={`${youtubeEmbed(videoId)}&autoplay=1`}
+        src={`${youtubeEmbed(videoId, start)}&autoplay=1`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
@@ -80,7 +82,6 @@ function ExerciseRow({
   const aDone = Boolean(done[doneKey(workout.id, exercise.id, 'a')])
   const bDone = Boolean(done[doneKey(workout.id, exercise.id, 'b')])
   const both = aDone && bDone
-  const demoId = exercise.videoId
 
   return (
     <article className={`exercise${both ? ' exercise-done' : ''}`}>
@@ -89,23 +90,25 @@ function ExerciseRow({
           <h3>{exercise.name}</h3>
           <p className="dose">{exercise.dose}</p>
         </div>
-        {demoId ? (
-          <button
-            type="button"
-            className="text-btn"
-            onClick={() => setShowVideo((value) => !value)}
-            aria-expanded={showVideo}
-          >
-            {showVideo ? 'Hide form clip' : 'How to do it'}
-          </button>
-        ) : null}
+        <button
+          type="button"
+          className="text-btn"
+          onClick={() => setShowVideo((value) => !value)}
+          aria-expanded={showVideo}
+        >
+          {showVideo ? 'Hide how-to' : 'How to do it'}
+        </button>
       </div>
       <p className="cue">{exercise.cue}</p>
       <p className="easier">
         <span>Easier option:</span> {exercise.easier}
       </p>
-      {demoId && showVideo ? (
-        <VideoPreview videoId={demoId} title={`${exercise.name} form clip`} />
+      {showVideo ? (
+        <VideoPreview
+          videoId={exercise.howTo.videoId}
+          start={exercise.howTo.start}
+          title={`How to do ${exercise.name}`}
+        />
       ) : null}
       <div className="checks">
         <button
