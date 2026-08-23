@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   WORKOUTS,
   getWorkout,
-  youtubeEmbed,
   youtubeThumb,
   type Exercise,
   type PersonId,
@@ -11,6 +10,7 @@ import {
 import { CalendarView, StreakView } from './CalendarView'
 import { CloudSave } from './CloudSave'
 import { ConfettiCannons } from './Confetti'
+import { VideoPlayer } from './VideoPlayer'
 import { formatDayTitle } from './calendar'
 import {
   fetchFamily,
@@ -25,45 +25,6 @@ import './App.css'
 function displayName(names: AppState['names'], person: PersonId) {
   if (person === 'a') return names.a.trim() || 'Parent'
   return names.b.trim() || 'Kid'
-}
-
-function VideoPreview({
-  videoId,
-  title,
-  start,
-  large,
-}: {
-  videoId: string
-  title: string
-  start?: number
-  large?: boolean
-}) {
-  const [open, setOpen] = useState(false)
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        className={large ? 'video-poster video-poster-large' : 'video-poster'}
-        onClick={() => setOpen(true)}
-        aria-label={`Play preview: ${title}`}
-      >
-        <img src={youtubeThumb(videoId)} alt="" />
-        <span className="play-badge">Preview</span>
-      </button>
-    )
-  }
-
-  return (
-    <div className={large ? 'video-frame video-frame-large' : 'video-frame'}>
-      <iframe
-        src={`${youtubeEmbed(videoId, start)}&autoplay=1`}
-        title={title}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-  )
 }
 
 function ExerciseRow({
@@ -105,7 +66,7 @@ function ExerciseRow({
         <span>Easier option:</span> {exercise.easier}
       </p>
       {showVideo ? (
-        <VideoPreview
+        <VideoPlayer
           videoId={exercise.howTo.videoId}
           start={exercise.howTo.start}
           title={`How to do ${exercise.name}`}
@@ -232,7 +193,7 @@ function WorkoutView({
           </button>
         </div>
         {showFollow ? (
-          <VideoPreview
+          <VideoPlayer
             videoId={workout.followAlongId}
             title={workout.followAlongTitle}
             large

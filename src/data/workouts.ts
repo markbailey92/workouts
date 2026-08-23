@@ -831,13 +831,3 @@ export function isKnownExercise(workoutId: string, exerciseId: string) {
 export function youtubeThumb(videoId: string) {
   return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
 }
-
-export function youtubeEmbed(videoId: string, start?: number) {
-  const params = new URLSearchParams({
-    rel: '0',
-    modestbranding: '1',
-    playsinline: '1',
-  })
-  if (start && start > 0) params.set('start', String(start))
-  return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`
-}
