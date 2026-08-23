@@ -51,7 +51,7 @@ export function StreakView({ done }: { done: AppState['done'] }) {
             className={`streak-day${day.complete ? ' is-complete' : day.partial ? ' is-partial' : ''}${day.date === dateKey() ? ' is-today' : ''}`}
             title={day.date}
           >
-            <i />
+            <i>{day.completeCount > 1 ? day.completeCount : null}</i>
             <b>{day.weekday}</b>
           </span>
         ))}

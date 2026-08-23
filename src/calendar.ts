@@ -106,6 +106,7 @@ export type StreakDay = {
   weekday: string
   complete: boolean
   partial: boolean
+  completeCount: number
 }
 
 export type StreakStats = {
@@ -154,6 +155,7 @@ export function streakStats(done: Record<string, boolean>, today = dateKey()): S
       }),
       complete: completeDates.has(date),
       partial: Boolean(map[date]?.hasActivity && !map[date]?.completeCount),
+      completeCount: map[date]?.completeCount ?? 0,
     })
   }
 
