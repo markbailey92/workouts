@@ -10,6 +10,7 @@ import {
 } from './data/workouts'
 import { CalendarView, StreakView } from './CalendarView'
 import { CloudSave } from './CloudSave'
+import { ConfettiCannons } from './Confetti'
 import { formatDayTitle } from './calendar'
 import {
   fetchFamily,
@@ -142,16 +143,20 @@ function WorkoutView({
   workout,
   state,
   onToggle,
+  onComplete,
   onReset,
   onBack,
 }: {
   workout: Workout
   state: AppState
   onToggle: (exerciseId: string, person: PersonId) => void
+  onComplete: () => void
   onReset: () => void
   onBack: () => void
 }) {
   const [showFollow, setShowFollow] = useState(true)
+  const [celebrateOpen, setCelebrateOpen] = useState(false)
+  const closeRef = useRef<HTMLButtonElement>(null)
   const totalSlots = workout.exercises.length * 2
   const finished = workout.exercises.reduce((count, exercise) => {
     const a = state.done[doneKey(workout.id, exercise.id, 'a')] ? 1 : 0
@@ -160,6 +165,28 @@ function WorkoutView({
   }, 0)
   const bothComplete = finished === totalSlots
   const percent = Math.round((finished / totalSlots) * 100)
+  const parentName = displayName(state.names, 'a')
+  const kidName = displayName(state.names, 'b')
+
+  useEffect(() => {
+    if (!celebrateOpen) return
+    closeRef.current?.focus()
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    function onKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') setCelebrateOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [celebrateOpen])
+
+  function finishSession() {
+    onComplete()
+    setCelebrateOpen(true)
+  }
 
   return (
     <div className="page">
@@ -229,6 +256,41 @@ function WorkoutView({
           />
         ))}
       </section>
+
+      <section className="finish">
+        <button type="button" className="finish-btn" onClick={finishSession}>
+          {bothComplete ? 'Celebrate again' : 'We finished this'}
+        </button>
+        <p className="finish-note">
+          Marks the whole session done for both of you, then fires the cannons.
+        </p>
+      </section>
+
+      {celebrateOpen ? (
+        <div
+          className="celebrate-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="celebrate-title"
+        >
+          <ConfettiCannons />
+          <div className="celebrate-card">
+            <p className="eyebrow">Session complete</p>
+            <h2 id="celebrate-title">You crushed it</h2>
+            <p>
+              {parentName} and {kidName} finished {workout.title}. High five.
+            </p>
+            <button
+              ref={closeRef}
+              type="button"
+              className="finish-btn finish-btn-card"
+              onClick={() => setCelebrateOpen(false)}
+            >
+              Nice one
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
@@ -419,6 +481,18 @@ export default function App() {
     }))
   }
 
+  function completeWorkout() {
+    if (!workout) return
+    setState((current) => {
+      const next = { ...current.done }
+      for (const exercise of workout.exercises) {
+        next[doneKey(workout.id, exercise.id, 'a')] = true
+        next[doneKey(workout.id, exercise.id, 'b')] = true
+      }
+      return { ...current, done: next }
+    })
+  }
+
   function resetWorkout() {
     if (!workout) return
     setState((current) => {
@@ -446,6 +520,7 @@ export default function App() {
         workout={workout}
         state={state}
         onToggle={toggle}
+        onComplete={completeWorkout}
         onReset={resetWorkout}
         onBack={() => setWorkoutId(null)}
       />

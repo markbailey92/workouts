@@ -1,0 +1,15 @@
+---
+description: Commit finished app work and push to main so Vercel deploys
+alwaysApply: true
+---
+
+# Auto commit and deploy
+
+After finishing a user-requested app change (not a question-only turn):
+
+1. Commit the relevant files with a concise message that explains why.
+2. Push `main` to `origin` so Vercel production updates. Do not wait to be asked.
+
+Do not commit `.env.local`, secrets, or unrelated files. Do not skip git hooks. Do not amend unless the user asks.
+
+If push or deploy fails, say so and stop.
