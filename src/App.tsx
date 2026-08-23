@@ -27,6 +27,15 @@ function displayName(names: AppState['names'], person: PersonId) {
   return names.b.trim() || 'Kid'
 }
 
+function pairNames(names: AppState['names']) {
+  const parent = names.a.trim()
+  const kid = names.b.trim()
+  if (parent && kid) return `${parent} and ${kid}`
+  if (parent) return parent
+  if (kid) return kid
+  return 'You two'
+}
+
 function ExerciseRow({
   workout,
   exercise,
@@ -126,8 +135,7 @@ function WorkoutView({
   }, 0)
   const bothComplete = finished === totalSlots
   const percent = Math.round((finished / totalSlots) * 100)
-  const parentName = displayName(state.names, 'a')
-  const kidName = displayName(state.names, 'b')
+  const namesTogether = pairNames(state.names)
 
   useEffect(() => {
     if (!celebrateOpen) return
@@ -174,7 +182,7 @@ function WorkoutView({
           <div className="progress-fill" style={{ width: `${percent}%` }} />
         </div>
         {bothComplete ? (
-          <p className="celebrate">You both finished this one. Nice work.</p>
+          <p className="celebrate">{namesTogether} finished this one. Nice work.</p>
         ) : null}
       </section>
 
@@ -237,10 +245,8 @@ function WorkoutView({
           <ConfettiCannons />
           <div className="celebrate-card">
             <p className="eyebrow">Session complete</p>
-            <h2 id="celebrate-title">You crushed it</h2>
-            <p>
-              {parentName} and {kidName} finished {workout.title}. High five.
-            </p>
+            <h2 id="celebrate-title">{namesTogether} crushed it</h2>
+            <p>That&apos;s {workout.title} done. High five.</p>
             <button
               ref={closeRef}
               type="button"

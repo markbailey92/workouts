@@ -638,7 +638,9 @@ body.sheet-open {
 
 .celebrate-card h2 {
   margin: 4px 0 10px;
-  font-size: clamp(1.8rem, 6vw, 2.4rem);
+  font-size: clamp(1.6rem, 6vw, 2.3rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .celebrate-card p:last-of-type {
